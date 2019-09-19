@@ -119,13 +119,6 @@
     "@types/keygrip" "*"
     "@types/node" "*"
 
-"@types/dotenv@^6.1.1":
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/@types/dotenv/-/dotenv-6.1.1.tgz#f7ce1cc4fe34f0a4373ba99fefa437b0bec54b46"
-  integrity sha512-ftQl3DtBvqHl9L16tpqqzA4YzCSXZfi7g8cQceTz5rOlYtk/IZbFjAv3mLOQlNIgOaylCQWQoBdDQHPgEBJPHg==
-  dependencies:
-    "@types/node" "*"
-
 "@types/express-serve-static-core@*":
   version "4.16.9"
   resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.16.9.tgz#69e00643b0819b024bdede95ced3ff239bb54558"
@@ -241,13 +234,6 @@
     "@types/node" "*"
     "@types/pino-std-serializers" "*"
     "@types/sonic-boom" "*"
-
-"@types/ramda@^0.26.15":
-  version "0.26.22"
-  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.26.22.tgz#4506cf76b53191d17fce473bc3de529ece6f4886"
-  integrity sha512-TfX4BwgjMSXFuyb1QZsY2D8KEsJfiWolzJHYzFWyB/0UGiyX6BFvWX05IzzrMAsZpB4uN0GXAL5QcJHTKnBxoQ==
-  dependencies:
-    ts-toolbelt "^3.8.75"
 
 "@types/range-parser@*":
   version "1.2.3"
@@ -899,11 +885,6 @@ dot-prop@^4.1.0:
   integrity sha512-tUMXrxlExSW6U2EXiiKGSBVdYgtV8qlHL+C10TsW4PURY/ic+eaysnSkwB4kA/mBlCyy/IKDJ+Lc3wbWeaXtuQ==
   dependencies:
     is-obj "^1.0.0"
-
-dotenv@6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.0.0.tgz#24e37c041741c5f4b25324958ebbc34bca965935"
-  integrity sha512-FlWbnhgjtwD+uNLUGHbMykMOYQaTivdHEmYwAKFjn6GKe/CqY0fNae93ZHTd20snh9ZLr8mTzIL9m0APQ1pjQg==
 
 duplexer3@^0.1.4:
   version "0.1.4"
@@ -2680,11 +2661,6 @@ quick-format-unescaped@^3.0.2:
   resolved "https://registry.yarnpkg.com/quick-format-unescaped/-/quick-format-unescaped-3.0.2.tgz#0137e94d8fb37ffeb70040535111c378e75396fb"
   integrity sha512-FXTaCkwvpIlkdKeGDNgcq07SXWS383noQUuZjvdE1QcTt+eLuqof6/BDiEPqB59FWLie/l91+HtlJSw7iCViSA==
 
-ramda@0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"
-  integrity sha512-GXpfrYVPwx3K7RQ6aYT8KPS8XViSXUVJT1ONhoKPE9VAleW42YE+U+8VEyGWt41EnEQW7gwecYJriTI0pKoecQ==
-
 raw-body@^2.3.3:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.4.1.tgz#30ac82f98bb5ae8c152e67149dac8d55153b168c"
@@ -3290,11 +3266,6 @@ ts-node@^8.4.1:
     make-error "^1.1.1"
     source-map-support "^0.5.6"
     yn "^3.0.0"
-
-ts-toolbelt@^3.8.75:
-  version "3.14.0"
-  resolved "https://registry.yarnpkg.com/ts-toolbelt/-/ts-toolbelt-3.14.0.tgz#f4c4984cf4e988915a0175fd6a8ded00bd1d23b0"
-  integrity sha512-DYjD8tL7M1kBogRd9UKg3bUP5yh69WWcMSaA3By8ATiJU9fgYudSYIe8tWD5cpPkrGCdGGnKXQHG+5IrjJ5uhQ==
 
 tsc-watch@^4.0.0:
   version "4.0.0"

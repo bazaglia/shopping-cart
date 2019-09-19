@@ -36,11 +36,8 @@ export class HTTPController {
     const { itemId, quantity } = ctx.request.body
 
     const item = await this._itemService.getById(itemId)
-    if (!item) {
-      throw new Error('Invalid item ID')
-    }
-
     const cart = await this._cartService.add(cartId, item, quantity)
+
     ctx.body = cart.unmarshal()
   }
 
