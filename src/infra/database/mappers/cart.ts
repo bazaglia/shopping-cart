@@ -1,9 +1,9 @@
-import { Cart, ICartItem } from 'src/domain/cart'
+import { Cart, CartItem } from 'src/domain/cart'
 
-const getProducts = (products: ICartItem[]) => {
+const getProducts = (products: CartItem[]) => {
   return products.map(product => ({
     item: product.item,
-    sku: product.sku,
+    quantity: product.quantity,
   }))
 }
 

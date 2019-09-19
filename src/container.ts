@@ -13,6 +13,9 @@ import { Server, IServer } from './api/http/Server'
 import { ItemService } from './app/item'
 import { ItemRepository } from './infra/database/repositories/item'
 
+import { CartService } from './app/cart'
+import { CartRepository } from './infra/database/repositories/cart'
+
 const container = new Container()
 
 container
@@ -42,5 +45,7 @@ container
 
 container.bind(TYPES.ItemService).to(ItemService)
 container.bind(TYPES.ItemRepository).to(ItemRepository)
+container.bind(TYPES.CartService).to(CartService)
+container.bind(TYPES.CartRepository).to(CartRepository)
 
 export { container }

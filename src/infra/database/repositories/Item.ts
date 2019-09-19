@@ -21,11 +21,17 @@ export class ItemRepository implements IItemRepository {
   }
 
   async getById(id: string) {
-    return this._database.items.getById(id)
+    const item = await this._database.items.getById(id)
+    if (!item) {
+      throw new Error('Item not found')
+    }
+
+    return ItemMapper.toDomain(item)
   }
 
   async insert(item: Item) {
     const dtoItem = item.unmarshal()
-    return this._database.items.insert(dtoItem)
+    const inserted = await this._database.items.insert(dtoItem)
+    return ItemMapper.toDomain(inserted)
   }
 }

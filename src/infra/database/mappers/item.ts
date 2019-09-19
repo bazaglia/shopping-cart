@@ -5,7 +5,7 @@ export class ItemMapper {
     return Item.create({
       id: raw.id,
       displayName: raw.displayName,
-      description: raw.description,
+      sku: raw.sku,
       price: raw.price,
     })
   }

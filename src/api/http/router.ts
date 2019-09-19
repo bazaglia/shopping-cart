@@ -15,5 +15,15 @@ export class HTTPRouter {
       .get('/item', (ctx: BaseContext) => this._controller.listItems(ctx))
       .get('/item/:id', (ctx: BaseContext) => this._controller.getItem(ctx))
       .post('/item', (ctx: BaseContext) => this._controller.createItem(ctx))
+      .get('/cart/:id', (ctx: BaseContext) => this._controller.getCart(ctx))
+      .post('/cart/:cartId/item', (ctx: BaseContext) =>
+        this._controller.addToCart(ctx),
+      )
+      .delete('/cart/:cartId/item/:itemId', (ctx: BaseContext) =>
+        this._controller.removeFromCart(ctx),
+      )
+      .post('/cart/:cartId/clean', (ctx: BaseContext) =>
+        this._controller.emptyCart(ctx),
+      )
   }
 }

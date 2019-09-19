@@ -2,8 +2,8 @@ import { Entity } from './entity'
 
 export interface IItem {
   id?: string
+  sku: string
   displayName: string
-  description: string
   price: number
 }
 
@@ -21,8 +21,8 @@ export class Item extends Entity<IItem> {
   public unmarshal(): IItem {
     return {
       id: this.id,
+      sku: this.sku,
       displayName: this.displayName,
-      description: this.description,
       price: parseFloat(this.price.toString()),
     }
   }
@@ -31,12 +31,12 @@ export class Item extends Entity<IItem> {
     return this._id
   }
 
-  get displayName(): string {
-    return this.props.displayName
+  get sku(): string {
+    return this.props.sku
   }
 
-  get description(): string {
-    return this.props.description
+  get displayName(): string {
+    return this.props.displayName
   }
 
   get price(): number {

@@ -22,6 +22,7 @@ class Collection {
 
   async update(id: string, value: any) {
     this.data[id] = value
+    return this.data[id]
   }
 }
 
