@@ -1,5 +1,6 @@
 import { injectable, inject } from 'inversify'
 import { TYPES } from '../../../types'
+import { ResourceNotFound } from 'src/libs/errors'
 
 import { MemoryData } from '../memory'
 import { Cart } from 'src/domain/cart'
@@ -17,7 +18,7 @@ export class CartRepository implements ICartRepository {
   async getById(id: string): Promise<Cart> {
     const cart = await this._database.cart.getById(id)
     if (!cart) {
-      throw new Error('Cart not found')
+      throw new ResourceNotFound('Cart', { id })
     }
     return CartMapper.toDomain(cart)
   }

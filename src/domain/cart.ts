@@ -1,5 +1,6 @@
 import { Entity } from './entity'
 import { Item, IItem } from './item'
+import { ValidationError } from 'src/libs/errors'
 
 export interface CartItem {
   item: Item
@@ -70,6 +71,10 @@ export class Cart extends Entity<ICartProps> {
     this.props.products = products
   }
 
+  private emitCartMutation() {
+    Cart.event.emit('cartMutated', { cart: this, datetime: new Date() })
+  }
+
   get id(): string {
     return this._id
   }
@@ -95,7 +100,9 @@ export class Cart extends Entity<ICartProps> {
 
   public add(item: Item, quantity: number) {
     if (!Cart.validQuantity(quantity)) {
-      throw new Error('SKU needs to have a quantity between 1 and 1000')
+      throw new ValidationError(
+        'SKU needs to have a quantity between 1 and 1000',
+      )
     }
 
     const index = this.products.findIndex(
@@ -109,7 +116,7 @@ export class Cart extends Entity<ICartProps> {
       }
 
       if (!Cart.validQuantity(product.quantity)) {
-        throw new Error('SKU exceeded allowed quantity')
+        throw new ValidationError('SKU exceeded allowed quantity')
       }
 
       const products = [
@@ -123,14 +130,17 @@ export class Cart extends Entity<ICartProps> {
 
     const products = [...this.products, { item, quantity }]
     this.setProducts(products)
+    this.emitCartMutation()
   }
 
   public remove(itemId: string) {
     const products = this.products.filter(product => product.item.id !== itemId)
     this.setProducts(products)
+    this.emitCartMutation()
   }
 
   public empty() {
     this.setProducts([])
+    this.emitCartMutation()
   }
 }

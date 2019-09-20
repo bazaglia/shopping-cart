@@ -1,5 +1,6 @@
 import { injectable, inject } from 'inversify'
 import { TYPES } from '../../../types'
+import { ResourceNotFound } from 'src/libs/errors'
 
 import { MemoryData } from '../memory'
 import { Item } from 'src/domain/item'
@@ -23,9 +24,8 @@ export class ItemRepository implements IItemRepository {
   async getById(id: string) {
     const item = await this._database.items.getById(id)
     if (!item) {
-      throw new Error('Item not found')
+      throw new ResourceNotFound('Item', { id })
     }
-
     return ItemMapper.toDomain(item)
   }
 

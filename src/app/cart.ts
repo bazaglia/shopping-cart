@@ -8,6 +8,10 @@ import { Item } from 'src/domain/item'
 export class CartService {
   @inject(TYPES.CartRepository) private repository: CartRepository
 
+  constructor() {
+    Cart.event.on('cartMutated', event => console.log('Cart mutated!', event))
+  }
+
   private async _getCart(id: string): Promise<Cart> {
     try {
       const cart = await this.repository.getById(id)

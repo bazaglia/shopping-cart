@@ -11,7 +11,7 @@ const mapErrorToHttpResponse = (err: any) => {
     return boom.notFound(err.message)
   }
 
-  if (err instanceof errors.BadRequest) {
+  if (err instanceof errors.ValidationError) {
     return boom.badRequest(err.message)
   }
 

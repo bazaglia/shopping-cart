@@ -15,7 +15,7 @@ export class Internal extends ExtendableError {
   }
 }
 
-export class BadRequest extends ExtendableError {}
+export class ValidationError extends ExtendableError {}
 
 export class ResourceNotFound extends ExtendableError {
   data: object
