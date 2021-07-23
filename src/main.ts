@@ -2,10 +2,7 @@ import 'reflect-metadata'
 
 import { container } from './container'
 import { TYPES } from './types'
-
-import { IServer } from './api/http/Server'
-
-const logger = container.get(TYPES.Logger)
+import { IServer } from './api/http/server'
 
 const start = async () => {
   const server = container.get<IServer>(TYPES.Server)
@@ -13,8 +10,4 @@ const start = async () => {
 }
 
 start()
-// .then(() => logger.info('Started server...'))
-// .catch(error => {
-//   logger.error(error.stack)
-//   process.exit()
-// })
+console.log('Listening on http://localhost:3000')

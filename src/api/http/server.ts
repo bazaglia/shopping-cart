@@ -1,14 +1,13 @@
 import { injectable, inject } from 'inversify'
+import Koa from 'koa'
+import cors from '@koa/cors'
+import bodyParser from 'koa-bodyparser'
+import compress from 'koa-compress'
+
 import { TYPES } from '../../types'
-
-import * as Koa from 'koa'
-import * as cors from '@koa/cors'
-import * as bodyParser from 'koa-bodyparser'
-import * as compress from 'koa-compress'
-
-import { errorHandler, devErrorHandler } from './middlewares/errorHandler'
+import { Logger } from '../../infra/logging/pino'
+import { errorHandler, devErrorHandler } from './middlewares/error-handler'
 import { HTTPRouter } from './router'
-import { Logger } from 'src/infra/logging/pino'
 
 export interface IServer {
   start(): void
@@ -19,16 +18,16 @@ export class Server {
   @inject(TYPES.HTTPRouter) private _router: HTTPRouter
   @inject(TYPES.Logger) private _logger: Logger
 
-  start() {
+  start(): void {
     const router = this._router.get()
     const logger = this._logger.get()
     const env = String(process.env)
 
-    router.get('/robots.txt', ctx => {
+    router.get('/robots.txt', (ctx) => {
       ctx.body = 'User-Agent: *\nDisallow: /'
     })
 
-    router.get('/health', ctx => {
+    router.get('/health', (ctx) => {
       ctx.body = 'OK'
     })
 
@@ -42,7 +41,7 @@ export class Server {
 
     app.use(router.routes())
 
-    app.on('error', err => {
+    app.on('error', (err) => {
       if (process.env.NODE_ENV !== 'test') {
         logger.error(err)
       }

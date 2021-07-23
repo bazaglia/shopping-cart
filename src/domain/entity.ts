@@ -1,14 +1,12 @@
-import * as UniqueEntityID from 'cuid'
-import { EventEmitter } from 'events'
+import UniqueEntityID from 'cuid'
 
-const isEntity = (v: any): v is Entity<any> => {
+const isEntity = <T>(v: Entity<T>): v is Entity<T> => {
   return v instanceof Entity
 }
 
 export abstract class Entity<T> {
   protected readonly _id: string
   protected props: T
-  public static readonly event = new EventEmitter()
 
   constructor(props: T, id?: string) {
     this._id = id ? id : UniqueEntityID()

@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify'
 import { TYPES } from '../types'
-import { ItemRepository } from 'src/infra/database/repositories/item'
-import { Item } from 'src/domain/item'
+import { Item } from '../domain/item'
+import { ItemRepository } from '../domain/repository'
 
 @injectable()
 export class ItemService {

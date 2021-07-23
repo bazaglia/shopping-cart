@@ -1,55 +1,45 @@
+import { ValidationError } from '../libs/errors'
 import { Entity } from './entity'
-import { Item, IItem } from './item'
-import { ValidationError } from 'src/libs/errors'
+import { Item, UnmarshalledItem } from './item'
 
 export interface CartItem {
   item: Item
   quantity: number
 }
 
-export interface ICartProps {
-  id?: string
-  couponCode?: string
-  products: CartItem[]
-}
-
-interface UnmarshalledCartItem {
-  item: IItem
+export interface UnmarshalledCartItem {
+  item: UnmarshalledItem
   quantity: number
 }
 
-interface UnmarshalledCart {
+export interface UnmarshalledCart {
   id: string
-  couponCode?: string
   products: UnmarshalledCartItem[]
   totalPrice: number
 }
 
-export class Cart extends Entity<ICartProps> {
-  constructor({ id, ...data }: ICartProps) {
+export interface CartProps {
+  id?: string
+  rawProducts?: UnmarshalledCartItem[]
+}
+
+export class Cart extends Entity<CartProps> {
+  private _products: CartItem[]
+
+  private constructor({ id, ...data }: CartProps) {
     super(data, id)
   }
 
-  public static create(props: ICartProps): Cart {
+  public static create(props: CartProps): Cart {
     const instance = new Cart(props)
-
-    if (instance.products) {
-      const products = instance.products.map(product => ({
-        item: Item.create(product.item),
-        quantity: product.quantity,
-      }))
-
-      instance.setProducts(products)
-    }
-
+    instance.products = instance.rawProducts || []
     return instance
   }
 
   public unmarshal(): UnmarshalledCart {
     return {
       id: this.id,
-      couponCode: this.couponCode,
-      products: this.products.map(product => ({
+      products: this.products.map((product) => ({
         item: product.item.unmarshal(),
         quantity: product.quantity,
       })),
@@ -57,34 +47,12 @@ export class Cart extends Entity<ICartProps> {
     }
   }
 
-  private discounts = {
-    timewax10: 0.05,
-    timewax20: 0.2,
-    timewax50: 0.5,
-  }
-
   private static validQuantity(quantity: number) {
     return quantity >= 1 && quantity <= 1000
   }
 
-  private setProducts(products: CartItem[]) {
-    this.props.products = products
-  }
-
-  private emitCartMutation() {
-    Cart.event.emit('cartMutated', { cart: this, datetime: new Date() })
-  }
-
   get id(): string {
     return this._id
-  }
-
-  get couponCode(): string {
-    return this.props.couponCode
-  }
-
-  get products(): CartItem[] {
-    return this.props.products
   }
 
   get totalPrice(): number {
@@ -92,22 +60,32 @@ export class Cart extends Entity<ICartProps> {
       return acc + product.item.price * product.quantity
     }
 
-    const cartValue = this.products.reduce(sum, 0)
-    const discountFactor = this.couponCode ? this.discounts[this.couponCode] : 1
-
-    return cartValue * discountFactor
+    return this.products.reduce(sum, 0)
   }
 
-  public add(item: Item, quantity: number) {
+  get rawProducts(): UnmarshalledCartItem[] {
+    return this.props.rawProducts
+  }
+
+  get products(): CartItem[] {
+    return this._products
+  }
+
+  set products(products: CartItem[] | UnmarshalledCartItem[]) {
+    this._products = products.map((p) => ({
+      item: p.item instanceof Item ? p.item : Item.create(p.item),
+      quantity: p.quantity,
+    }))
+  }
+
+  public add(item: Item, quantity: number): void {
     if (!Cart.validQuantity(quantity)) {
       throw new ValidationError(
         'SKU needs to have a quantity between 1 and 1000',
       )
     }
 
-    const index = this.products.findIndex(
-      product => product.item.sku === item.sku,
-    )
+    const index = this.products.findIndex((p) => p.item.sku === item.sku)
 
     if (index > -1) {
       const product = {
@@ -125,22 +103,21 @@ export class Cart extends Entity<ICartProps> {
         ...this.products.slice(index + 1),
       ]
 
-      return this.setProducts(products)
+      this.products = products
+      return
     }
 
-    const products = [...this.products, { item, quantity }]
-    this.setProducts(products)
-    this.emitCartMutation()
+    this.products = [...this.products, { item, quantity }]
   }
 
-  public remove(itemId: string) {
-    const products = this.products.filter(product => product.item.id !== itemId)
-    this.setProducts(products)
-    this.emitCartMutation()
+  public remove(itemId: string): void {
+    const products = this.products.filter(
+      (product) => product.item.id !== itemId,
+    )
+    this.products = products
   }
 
-  public empty() {
-    this.setProducts([])
-    this.emitCartMutation()
+  public empty(): void {
+    this.products = []
   }
 }

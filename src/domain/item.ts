@@ -1,24 +1,24 @@
 import { Entity } from './entity'
 
-export interface IItem {
+export interface UnmarshalledItem {
   id?: string
   sku: string
   displayName: string
   price: number
 }
 
-export class Item extends Entity<IItem> {
-  constructor(props: IItem) {
+export class Item extends Entity<UnmarshalledItem> {
+  private constructor(props: UnmarshalledItem) {
     const { id, ...data } = props
     super(data, id)
   }
 
-  public static create(props: IItem): Item {
+  public static create(props: UnmarshalledItem): Item {
     const instance = new Item(props)
     return instance
   }
 
-  public unmarshal(): IItem {
+  public unmarshal(): UnmarshalledItem {
     return {
       id: this.id,
       sku: this.sku,

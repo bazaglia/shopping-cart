@@ -2,7 +2,17 @@
 
 A DDD shopping cart application focused on separation of concerns and scalability.
 
-## Project architecture
+## Philosofy
+
+Main concepts for this architecture are around codebase scalability. The goal is to provide a clean architecture while flexible for implementing and growing functionalities into the codebase.
+
+Everything is highly testable, given low coupling with clear dependency graphs provided by Inversion of Control.
+
+## Architecture
+
+![Onion Architecture](docs/onion-architecture.png)
+
+## Folder structure
 
     .
     └── src
@@ -13,12 +23,6 @@ A DDD shopping cart application focused on separation of concerns and scalabilit
         ├── infra # Communication with what is external of application
         └── libs # Common functionalities
 
-## Philosofy
-
-Main concepts for this architecture are around codebase scalability. Main goal here is provide a clean architecture while flexible for implementing and growing functionalities into the codebase.
-
-Everything is highly testable, given low coupling with clear dependency graphs provided by Inversion of Control.
-
 ## API
 
 ### Create an item
@@ -27,9 +31,9 @@ POST http://localhost:3000/item
 
 ```json
 {
-	"sku": "AS-1234",
-	"displayName": "My first item",
-	"price": 100
+  "sku": "AS-1234",
+  "displayName": "My first item",
+  "price": 100
 }
 ```
 
@@ -46,8 +50,8 @@ POST http://localhost:3000/cart/1/item
 
 ```json
 {
-	"itemId": "ck0r5ypdz0000ppo73m4o8hfa",
-	"quantity": 1
+  "itemId": "ck0r5ypdz0000ppo73m4o8hfa",
+  "quantity": 1
 }
 ```
 
