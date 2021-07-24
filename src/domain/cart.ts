@@ -32,7 +32,7 @@ export class Cart extends Entity<CartProps> {
 
   public static create(props: CartProps): Cart {
     const instance = new Cart(props)
-    instance.products = instance.rawProducts || []
+    instance.products = instance.props.rawProducts || []
     return instance
   }
 
@@ -61,10 +61,6 @@ export class Cart extends Entity<CartProps> {
     }
 
     return this.products.reduce(sum, 0)
-  }
-
-  get rawProducts(): UnmarshalledCartItem[] {
-    return this.props.rawProducts
   }
 
   get products(): CartItem[] {
@@ -104,10 +100,9 @@ export class Cart extends Entity<CartProps> {
       ]
 
       this.products = products
-      return
+    } else {
+      this.products = [...this.products, { item, quantity }]
     }
-
-    this.products = [...this.products, { item, quantity }]
   }
 
   public remove(itemId: string): void {
